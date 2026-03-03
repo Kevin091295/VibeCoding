@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanju Samson — Cricketer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --red: #c0392b;
+    --blue: #1a2c5b;
+    --blue-light: #2e4b8f;
+    --silver: #8a9ab5;
+    --text-muted: #5a6a8a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(26,44,91,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.15) 0%, transparent 60%);
+    z-index: 0;
+  }
+
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 9vw, 140px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--cream);
+  }
+
+  .hero-name span {
+    display: block;
+    color: var(--gold);
+    font-size: clamp(56px, 7vw, 110px);
+  }
+
+  .hero-tagline {
+    margin-top: 32px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 26px);
+    color: var(--silver);
+    max-width: 380px;
+    line-height: 1.5;
+  }
+
+  .hero-stats-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+  }
+
+  .stat-chip {
+    text-align: center;
+  }
+  .stat-chip .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-chip .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-top: 4px;
+  }
+
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg-number {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(200px, 30vw, 420px);
+    line-height: 0.8;
+    color: rgba(26,44,91,0.35);
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .player-silhouette {
+    width: 100%;
+    height: 90vh;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .player-silhouette svg {
+    height: 85%;
+    width: auto;
+    filter: drop-shadow(0 0 60px rgba(201,168,76,0.3));
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  .nav-cta {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 120px 80px;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 90px);
+    line-height: 0.95;
+    color: var(--cream);
+    margin-bottom: 60px;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .about .section-label { color: var(--blue); }
+  .about .section-label::before { background: var(--blue); }
+  .about .section-title { color: var(--ink); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-bio {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .about-bio em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .about-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(10,10,10,0.12);
+  }
+
+  .fact-key {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  .fact-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* STATS */
+  .stats-section {
+    background: var(--blue);
+    overflow: hidden;
+  }
+
+  .stats-section .section-title { color: var(--cream); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stat-box {
+    background: var(--blue);
+    padding: 48px 40px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .stat-box:hover { background: var(--blue-light); }
+
+  .stat-box .format {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .stat-box .big-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 5vw, 80px);
+    line-height: 1;
+    color: var(--cream);
+  }
+
+  .stat-box .stat-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--silver);
+    margin-top: 8px;
+  }
+
+  .stat-box .accent-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .stat-box:hover .accent-line { transform: scaleX(1); }
+
+  /* CAREER TIMELINE */
+  .timeline-section {
+    background: var(--ink);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-left: 40px;
+    border-left: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 56px 60px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 8px;
+    width: 11px;
+    height: 11px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .timeline-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .timeline-event {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(20px, 2vw, 26px);
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .timeline-detail {
+    font-size: 14px;
+    color: var(--silver);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  /* RECORDS */
+  .records-section {
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .records-section .section-label { color: var(--red); }
+  .records-section .section-label::before { background: var(--red); }
+  .records-section .section-title { color: var(--ink); }
+
+  .records-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .record-card {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .record-card:hover { transform: translateY(-6px); }
+
+  .record-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 140px;
+    color: rgba(201,168,76,0.08);
+    line-height: 1;
+  }
+
+  .record-card .record-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .record-card .record-desc {
+    font-size: 14px;
+    color: var(--silver);
+    line-height: 1.7;
+  }
+
+  /* QUOTE */
+  .quote-section {
+    background: var(--gold);
+    text-align: center;
+    padding: 100px 120px;
+  }
+
+  .quote-text {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(28px, 4vw, 54px);
+    color: var(--ink);
+    line-height: 1.4;
+    max-width: 900px;
+    margin: 0 auto 32px;
+  }
+
+  .quote-attr {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(10,10,10,0.6);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .footer-info {
+    font-size: 12px;
+    color: var(--silver);
+    text-align: right;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 40px; }
+    section { padding: 80px 40px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 120px 40px 60px; }
+    .hero-right { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .records-grid { grid-template-columns: repeat(2, 1fr); }
+    .quote-section { padding: 80px 40px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-info { text-align: center; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 60px 24px; }
+    .hero-left { padding: 100px 24px 60px; }
+    .hero-stats-row { gap: 24px; flex-wrap: wrap; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .stat-box { padding: 32px 24px; }
+    .records-grid { grid-template-columns: 1fr; }
+    .timeline { margin-left: 20px; }
+    .timeline-item { padding-left: 36px; }
+    .quote-section { padding: 60px 24px; }
+    footer { padding: 40px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .hero-stats-row { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">SS</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#timeline">Career</a></li>
+    <li><a href="#records">Records</a></li>
+  </ul>
+  <a href="#stats" class="nav-cta">View Stats</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-left">
+    <div class="hero-label">India • Chennai Super Kings • Kerala</div>
+    <h1 class="hero-name">
+      SANJU
+      <span>SAMSON</span>
+    </h1>
+    <p class="hero-tagline">The most gifted wicketkeeper-batter in Indian cricket. <em>Elegant by nature, devastating by choice.</em></p>
+    <div class="hero-stats-row">
+      <div class="stat-chip">
+        <div class="num">3</div>
+        <div class="label">T20I 100s (2024)</div>
+      </div>
+      <div class="stat-chip">
+        <div class="num">531</div>
+        <div class="label">IPL 2024 Runs</div>
+      </div>
+      <div class="stat-chip">
+        <div class="num">111</div>
+        <div class="label">Best T20I Score</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-number">9</div>
+    <div class="player-silhouette">
+      <!-- Cricket player SVG silhouette -->
+      <svg viewBox="0 0 300 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Head -->
+        <ellipse cx="150" cy="60" rx="38" ry="42" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="1.5"/>
+        <!-- Helmet -->
+        <path d="M112 52 Q150 12 188 52 L190 68 Q170 55 150 54 Q130 55 110 68 Z" fill="rgba(26,44,91,0.8)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+        <!-- Visor -->
+        <path d="M112 68 L108 80 Q130 75 150 76 Q170 75 192 80 L188 68 Q168 55 150 54 Q132 55 112 68Z" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.6)" stroke-width="1"/>
+        <!-- Body/Jersey -->
+        <path d="M105 102 L80 130 L72 220 L100 218 L102 165 L100 260 L200 260 L198 165 L200 218 L228 220 L220 130 L195 102 Q178 128 150 128 Q122 128 105 102Z" fill="rgba(26,44,91,0.7)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+        <!-- Jersey stripes -->
+        <path d="M112 108 L100 200" stroke="rgba(201,168,76,0.5)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M188 108 L200 200" stroke="rgba(201,168,76,0.5)" stroke-width="6" stroke-linecap="round"/>
+        <!-- Gloves area -->
+        <ellipse cx="78" cy="240" rx="20" ry="22" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5"/>
+        <!-- Bat arm -->
+        <path d="M78 215 L56 300 L65 312 L95 230" fill="rgba(26,44,91,0.6)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+        <!-- Bat -->
+        <path d="M42 280 L38 420 Q37 438 50 440 Q66 442 70 424 L74 305 Z" fill="rgba(205,133,63,0.8)" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
+        <path d="M42 310 L72 316 M41 340 L71 346 M40 370 L70 376 M39 400 L69 406" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+        <!-- Handle -->
+        <path d="M55 280 L52 250 Q51 240 56 238 Q61 236 64 246 L68 280" fill="rgba(100,60,20,0.8)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+        <!-- Legs -->
+        <path d="M100 260 L90 400 L108 400 L120 300 L130 260Z" fill="rgba(245,240,232,0.15)" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+        <path d="M200 260 L210 400 L192 400 L180 300 L170 260Z" fill="rgba(245,240,232,0.15)" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+        <!-- Pads -->
+        <rect x="82" y="290" width="36" height="108" rx="6" fill="rgba(245,240,232,0.25)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+        <rect x="182" y="290" width="36" height="108" rx="6" fill="rgba(245,240,232,0.25)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+        <!-- Pad straps -->
+        <line x1="82" y1="320" x2="118" y2="320" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+        <line x1="82" y1="350" x2="118" y2="350" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+        <line x1="182" y1="320" x2="218" y2="320" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+        <line x1="182" y1="350" x2="218" y2="350" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+        <!-- Shoes -->
+        <path d="M82 398 Q80 416 75 422 L115 422 Q120 416 118 398Z" fill="rgba(10,10,10,0.9)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+        <path d="M182 398 Q184 416 189 422 L149 422 Q144 416 142 398Z" fill="rgba(10,10,10,0.9)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+        <!-- Shoulder glows -->
+        <ellipse cx="80" cy="125" rx="24" ry="24" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="20"/>
+        <ellipse cx="220" cy="125" rx="24" ry="24" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="20"/>
+        <!-- Number on jersey -->
+        <text x="150" y="210" font-family="sans-serif" font-size="36" font-weight="900" fill="rgba(201,168,76,0.7)" text-anchor="middle">9</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label fade-in">The Man</div>
+  <h2 class="section-title fade-in">Born To<br>Bat</h2>
+  <div class="about-grid">
+    <div class="about-bio fade-in">
+      Born in Thiruvananthapuram on <em>11 November 1994</em>, Sanju Samson grew up absorbing cricket in Delhi before his father moved the family to Kerala — a move that shaped a cricketing destiny.<br><br>
+      With hands quick as reflex, forearms like steel, and eyes calibrated to the split-second, Samson represents <em>rare elegance in a power-hitting era</em>. He doesn't just bat — he composes.
+    </div>
+    <div class="about-facts fade-in">
+      <div class="fact-row">
+        <span class="fact-key">Full Name</span>
+        <span class="fact-val">Sanju Viswanath Samson</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">Born</span>
+        <span class="fact-val">11 November 1994</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">Role</span>
+        <span class="fact-val">WK-Batter (RHB)</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">IPL Team</span>
+        <span class="fact-val">Chennai Super Kings</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">Domestic</span>
+        <span class="fact-val">Kerala</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">T20 World Cup</span>
+        <span class="fact-val">2024 Champion 🏆</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">Academy</span>
+        <span class="fact-val">Six Guns Sports Academy</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section" id="stats">
+  <div class="section-label fade-in">By The Numbers</div>
+  <h2 class="section-title fade-in">Career<br>Statistics</h2>
+  <div class="stats-grid fade-in">
+    <div class="stat-box">
+      <div class="format">T20 Internationals</div>
+      <div class="big-num">436</div>
+      <div class="stat-desc">Runs in T20I 2024 season</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">IPL 2024</div>
+      <div class="big-num">531</div>
+      <div class="stat-desc">Runs in 15 matches • SR 153.4</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">List A</div>
+      <div class="big-num">212*</div>
+      <div class="stat-desc">Highest score • Vijay Hazare 2019</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">IPL Career</div>
+      <div class="big-num">3934</div>
+      <div class="stat-desc">Runs as RR's all-time top scorer</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">Strike Rate</div>
+      <div class="big-num">183</div>
+      <div class="stat-desc">SR in T20I 2024 calendar year</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">Best T20I Score</div>
+      <div class="big-num">111</div>
+      <div class="stat-desc">Off 47 balls vs Bangladesh 2024</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">T20I Centuries</div>
+      <div class="big-num">3</div>
+      <div class="stat-desc">All scored in 2024 calendar year</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="stat-box">
+      <div class="format">IPL Seasons</div>
+      <div class="big-num">12+</div>
+      <div class="stat-desc">Since debut in 2013 for RR</div>
+      <div class="accent-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="section-label fade-in">The Journey</div>
+  <h2 class="section-title fade-in">Career<br>Milestones</h2>
+  <div class="timeline fade-in">
+    <div class="timeline-item">
+      <div class="timeline-year">2011</div>
+      <div class="timeline-event">First-Class Debut for Kerala</div>
+      <div class="timeline-detail">At just 17, Samson announced himself on the Ranji circuit — the youngest to captain a Kerala Ranji side.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2013</div>
+      <div class="timeline-event">IPL Debut • Rajasthan Royals</div>
+      <div class="timeline-detail">Signed at 18, won the Best Young Player award with 206 runs and 13 catches. A star was born.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2015</div>
+      <div class="timeline-event">India T20I Debut vs Zimbabwe</div>
+      <div class="timeline-detail">Made his international debut, beginning a long journey of intermittent appearances before cementing his spot.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2019</div>
+      <div class="timeline-event">Unbeaten 212 in Vijay Hazare Trophy</div>
+      <div class="timeline-detail">The then-highest individual List-A score by an Indian wicketkeeper. Fastest double century in the format. A record-breaking masterpiece.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2021</div>
+      <div class="timeline-event">Named Captain of Rajasthan Royals</div>
+      <div class="timeline-detail">Scored a century on captaincy debut vs PBKS — the first captain to do so in IPL history.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2022</div>
+      <div class="timeline-event">Led RR to IPL Final</div>
+      <div class="timeline-detail">Rajasthan's best IPL campaign in years, reaching the final before falling to Gujarat Titans.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-event">Historic T20I Triple Century Year</div>
+      <div class="timeline-detail">First batter to score 3 T20I centuries in a single calendar year. Part of India's T20 World Cup winning squad.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2025–26</div>
+      <div class="timeline-event">Traded to Chennai Super Kings</div>
+      <div class="timeline-detail">In a high-profile trade involving Jadeja & Curran, Samson joins CSK. Scored 97* in the 2026 T20 World Cup vs West Indies.</div>
+    </div>
+  </div>
+</section>
+
+<!-- RECORDS -->
+<section class="records-section" id="records">
+  <div class="section-label fade-in">Hall of Fame</div>
+  <h2 class="section-title fade-in">Unique<br>Records</h2>
+  <div class="records-grid fade-in">
+    <div class="record-card">
+      <div class="record-title">1st</div>
+      <div class="record-desc">Captain to score a century on IPL captaincy debut (119 vs PBKS, 2021)</div>
+    </div>
+    <div class="record-card">
+      <div class="record-title">3</div>
+      <div class="record-desc">T20I centuries in a single calendar year — a world record for an Indian batter (2024)</div>
+    </div>
+    <div class="record-card">
+      <div class="record-title">212*</div>
+      <div class="record-desc">Highest individual score by an Indian wicketkeeper in List-A cricket (Vijay Hazare 2019)</div>
+    </div>
+    <div class="record-card">
+      <div class="record-title">Youngest</div>
+      <div class="record-desc">To captain a Ranji Trophy side for an entire season in Indian cricket history</div>
+    </div>
+    <div class="record-card">
+      <div class="record-title">3934</div>
+      <div class="record-desc">All-time highest run scorer for Rajasthan Royals across 12+ seasons</div>
+    </div>
+    <div class="record-card">
+      <div class="record-title">97*</div>
+      <div class="record-desc">Match-winning knock in T20 World Cup 2026 Super 8 vs West Indies, chasing 196</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <p class="quote-text">"Sanju Samson holds the bat like a paintbrush and plays like he's composing — every boundary a brushstroke on a canvas only he can see."</p>
+  <p class="quote-attr">— On the art of Samson's batting</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SANJU SAMSON</div>
+  <div class="footer-info">
+    Wicketkeeper-Batter • India • Chennai Super Kings<br>
+    <span style="opacity:0.5; font-size:11px;">Fan Tribute Page • Data accurate as of March 2026</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Mobile menu
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const cta = document.querySelector('.nav-cta');
+    if (!links) return;
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'fixed';
+    links.style.top = '70px';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = 'rgba(10,10,10,0.97)';
+    links.style.padding = '24px';
+    links.style.gap = '20px';
+    links.style.zIndex = '99';
+  }
+
+  // Parallax on hero bg number
+  document.addEventListener('scroll', () => {
+    const el = document.querySelector('.hero-bg-number');
+    if (el) el.style.transform = `translateY(${window.scrollY * 0.15}px)`;
+  });
+
+  // Stagger timeline items
+  document.querySelectorAll('.timeline-item').forEach((el, i) => {
+    el.style.animationDelay = `${i * 0.1}s`;
+  });
+</script>
+</body>
+</html>
